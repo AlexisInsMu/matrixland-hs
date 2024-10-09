@@ -110,8 +110,8 @@ this application is a work in progress, so it is not recommended to use it for a
 
     - **Author**:
       - **Name**: Dorantes Andrade Laura Michelle
-      - **Email**:
-      - **Github**: 
+      - **Email**: ldrnts@gmail.com
+      - **Github**: LauraDorantes
       - 
     - **Author**: 
       - **Name**: Murillo Barrientos Alexis Adrian
