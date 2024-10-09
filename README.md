@@ -3,7 +3,7 @@
 > [!NOTE]
 > matrixland-hs is a integrated terminal and GUI application to solve matrix problems in haskell
 
-> [!NOTE]
+> [!WARNING]
 > Matrixland-hs is a work in progress
 
 ## Directory Structure
