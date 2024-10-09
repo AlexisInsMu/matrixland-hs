@@ -1,6 +1,7 @@
 {--Importar librerias--}
 import Data.Array
 import System.IO (hFlush, stdout)
+<<<<<<< HEAD
 
 import System.Console.Haskeline
     ( defaultSettings, getInputChar, outputStrLn, runInputT, InputT )
@@ -24,6 +25,10 @@ main = runInputT defaultSettings loop
           loop
         Nothing  -> loop
         
+=======
+
+main :: IO ()
+>>>>>>> f75355a6cbf3500a630c39371f40ef2e9932e7c7
 main = do
           putStrLn ""
           putStrLn "---------BIENVENIDO---------"
