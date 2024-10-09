@@ -79,7 +79,13 @@ ejecutarOp1 op1 = case op1 of
     "1" -> do
         putStrLn ""
         putStrLn "-------INFORMACIÓN-------"
-        putStrLn ""
+        putStrLn "Antes que nada, debemos recordar que la potencia de una matriz no 
+        siempre se puede calcular. Sólo es posible cuando 
+        la matriz es cuadrada, es decir, cuando tiene el mismo número de filas que de columnas."
+        putStrLn "La peculiaridad de la potenciación de las matrices es que, en muchas matrices, 
+        las potencias siguen un patrón. Por ejemplo, las potencia n-ésima de una matriz diagonal 
+        A es también una matriz diagonal cuyos elementos de la diagonal son las potencias 
+        n-ésimas de los elementos de la diagonal de la matriz A:"
         ejecutarOp "1"
     "2" -> do
         putStrLn ""
