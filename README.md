@@ -1,9 +1,9 @@
 # Matrixland-hs
 
-> .[!NOTE]. 
+> [!NOTE]
 > matrixland-hs is a integrated terminal and GUI application to solve matrix problems in haskell
 
-> .[!NOTE]. 
+> [!NOTE]
 > Matrixland-hs is a work in progress
 
 ## Directory Structure
