@@ -13,6 +13,8 @@ cabal-version:      3.4
 -- The name of the package.
 name:               matrixland
 
+
+
 -- The package version.
 -- See the Haskell package versioning policy (PVP) for standards
 -- guiding when and how versions should be incremented.
@@ -57,6 +59,24 @@ extra-doc-files:    CHANGELOG.md
 common warnings
     ghc-options: -Wall
 
+library
+    -- Import common warning flags.
+    import:             warnings
+
+    -- Directories containing source files.
+    hs-source-dirs:     src/lib
+
+    exposed-modules:    Operations.Operaciones_matrix
+
+    -- Directories containing source files.
+    build-depends:      base ^>=4.17.2.1,
+                        array
+    
+    -- Base language which the package is written in.
+    default-language:   GHC2021
+
+
+
 executable matrixland
     -- Import common warning flags.
     import:           warnings
@@ -73,7 +93,11 @@ executable matrixland
     -- Other library packages from which modules are imported.
     build-depends:    base ^>=4.17.2.1,
                       ansi-terminal >=0.11,
-                      haskeline >=0.8
+                      haskeline >=0.8,
+                      array,
+                      process,
+                      matrixland
+                      
 
     -- Directories containing source files.
     hs-source-dirs:   src/app
@@ -88,3 +112,9 @@ executable matrixland
   
 --   build-depends:       base >=4.7 && <5, matrixland-hs
 --   default-language:    GHC202
+
+-- cabal.project
+
+-- Other configurations...
+
+builddir: bin/dist-newstyle
