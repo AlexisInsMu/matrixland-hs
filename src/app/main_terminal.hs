@@ -1,7 +1,6 @@
 {--Importar librerias--}
 import Data.Array
 import System.IO (hFlush, stdout)
-<<<<<<< HEAD
 
 import System.Console.Haskeline
     ( defaultSettings, getInputChar, outputStrLn, runInputT, InputT )
@@ -25,10 +24,8 @@ main = runInputT defaultSettings loop
           loop
         Nothing  -> loop
         
-=======
 
 main :: IO ()
->>>>>>> f75355a6cbf3500a630c39371f40ef2e9932e7c7
 main = do
           putStrLn ""
           putStrLn "---------BIENVENIDO---------"
@@ -103,15 +100,7 @@ ejecutarOp op = case op of
 ejecutarOp1 :: String -> IO ()
 ejecutarOp1 op1 = case op1 of
     "1" -> do
-        putStrLn ""
-        putStrLn "-------INFORMACIÓN-------"
-        putStrLn "Antes que nada, debemos recordar que la potencia de una matriz no 
-        siempre se puede calcular. Sólo es posible cuando 
-        la matriz es cuadrada, es decir, cuando tiene el mismo número de filas que de columnas."
-        putStrLn "La peculiaridad de la potenciación de las matrices es que, en muchas matrices, 
-        las potencias siguen un patrón. Por ejemplo, las potencia n-ésima de una matriz diagonal 
-        A es también una matriz diagonal cuyos elementos de la diagonal son las potencias 
-        n-ésimas de los elementos de la diagonal de la matriz A:"
+        
         ejecutarOp "1"
     "2" -> do
         putStrLn ""
