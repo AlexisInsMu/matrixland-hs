@@ -96,7 +96,8 @@ executable matrixland
                       haskeline >=0.8,
                       array,
                       process,
-                      matrixland
+                      matrixland, 
+                      aeson
                       
 
     -- Directories containing source files.

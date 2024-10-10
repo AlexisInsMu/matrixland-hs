@@ -1,6 +1,15 @@
 {
-    
+    "screen_prin":{
+
+    },
+
     "screen_1":{
+        "text": "\n---------BIENVENIDO---------\n---------Menú principal---------\n1) Potencia de matrices\n2) Matriz identidad\n3) Multiplicación de matrices\n4) Salir\n¿Qué deseas aprender? \n\n",
+        "images": "../images/imagencita.png"
+    },
+
+    "sreeen_menu":{
+        "text": "\n---------BIENVENIDO---------\n---------Menú principal---------\n1) Potencia de matrices\n2) Matriz identidad\n3) Multiplicación de matrices\n4) Salir\n¿Qué deseas aprender? \n\n",
         "images": "../images/imagencita.png"
     }
 }

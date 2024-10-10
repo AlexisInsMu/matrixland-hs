@@ -1,4 +1,5 @@
 {--Importar librerias--}
+{-# LANGUAGE BlockArguments #-}
 
 import System.Exit (ExitCode (ExitFailure, ExitSuccess))
 import System.IO (hFlush, stdout)
@@ -18,38 +19,50 @@ import System.Process (system)
 --           outputStrLn ("Key pressed: " ++ [c])
 --           loop
 --         Nothing  -> loop
+import Data.Aeson
+import GHC.Generics
+import qualified Data.ByteString.Lazy as B
+
+data ScreenClass = ScreenClass
+  {text:: String
+  , images :: String
+  }
+  deriving (Show, Generic)
+
+data Info = Info
+  { screen_prin :: ScreenClass
+  , screen_1 :: ScreenClass
+  , sreeen_menu :: ScreenClass
+  } deriving (Show, Generic)
+
+instance FromJSON ScreenClass
+instance ToJSON ScreenClass
+
+instance FromJSON Info
+instance ToJSON Info
+{-- DisplayScreen, imprime el contenido de un json interactuable con numeros--}
+displayScreen :: FilePath -> (String -> IO())  -> IO ()
+displayScreen filePath handleInput do
+  clearScreen
+  jsonData <- B.readFile filePath
+  let _Data =  decode jsonData :: Maybe Info
+  case _Data of 
+    Just info -> do
+      putStrLn $ text (screen_menu info)
+      hFlush stdout
+      op <- getLine
+      handleInput op
+    Nothing -> "Failed to aprse Json"
+
 
 main :: IO ()
 main = do
-  putStrLn ""
-  putStrLn "---------BIENVENIDO---------"
-  putStrLn "---------Menú principal---------"
-  putStrLn "1) Potencia de matrices"
-  putStrLn "2) Matriz identidad"
-  putStrLn "3) Multiplicación de matrices"
-  putStrLn "4) Salir"
-  putStr "¿Qué deseas aprender? "
-  putStrLn ""
-  hFlush stdout -- Vaciar el búfer de salida
-  op <- getLine
-  ejecutarOp op
+  displayScreen "../data/info.json" ejecutarOp
 
 ejecutarOp :: String -> IO ()
 ejecutarOp op = case op of
   "1" -> do
-    result <- system "clear"
-    case result of
-      ExitSuccess -> putStrLn ""
-      ExitFailure _ -> putStrLn ""
-
-    putStrLn ""
-    putStrLn "---------POTENCIA DE MATRICES---------"
-    putStrLn "1) Aprender más"
-    putStrLn "2) Quiz"
-    putStrLn "3) Calculadora"
-    putStrLn "4) Regresar al menú principal"
-    putStr "¿Qué deseas aprender? "
-    putStrLn ""
+    liftIo clearScreen
     hFlush stdout -- Vaciar el búfer de salida
     op1 <- getLine
     ejecutarOp1 op1
@@ -93,7 +106,7 @@ ejecutarOp1 op1 = case op1 of
     "1" -> do
         putStrLn ""
         putStrLn "-------INFORMACIÓN-------"
-        putStrLn "Antes que nada, debemos recordar que la potencia de una matriz no 
+        putStrLn "Antes que nada, debemos recordar que la potencia de una matriz no "
         siempre se puede calcular. Sólo es posible cuando 
         la matriz es cuadrada, es decir, cuando tiene el mismo número de filas que de columnas."
         putStrLn "La peculiaridad de la potenciación de las matrices es que, en muchas matrices, 
