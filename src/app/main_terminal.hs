@@ -3,6 +3,12 @@
 
 import System.Exit (ExitCode (ExitFailure, ExitSuccess))
 import System.IO (hFlush, stdout)
+
+import System.Console.Haskeline
+    ( defaultSettings, getInputChar, outputStrLn, runInputT, InputT )
+import System.Console.ANSI ( clearScreen, setCursorPosition )
+import Control.Monad.IO.Class (liftIO)
+
 import System.Process (system)
 
 -- main :: IO ()
@@ -70,6 +76,22 @@ displayScreen filePath handleInput selectScreen control do
 
 
 main :: IO ()
+main = runInputT defaultSettings loop
+    where 
+    loop :: InputT IO ()
+    loop = do
+      minput <- getInputChar "Press a key (q to quit): "
+      case minput of
+        Just 'q' -> outputStrLn "Exiting..."
+        Just c   -> do
+          liftIO clearScreen
+          liftIO $ setCursorPosition 0 0
+          outputStrLn ("Key pressed: " ++ [c])
+          loop
+        Nothing  -> loop
+        
+
+main :: IO ()
 main = do
   displayScreen "../data/info.json" ejecutarOp sreeen_menu ""
 
@@ -91,6 +113,8 @@ ejecutarOp op = case op of
 
 ejecutarOp1 :: String -> IO ()
 ejecutarOp1 op1 = case op1 of
+<<<<<<< HEAD
+=======
     "1" -> do
         displayScreen "../data/info.json" ejecutarOp screen_info_1 "1"
         putStrLn ""
@@ -123,6 +147,7 @@ ejecutarOp1 op1 = case op1 of
         putStrLn "No válida. Intenta de nuevo."
         putStrLn ""
         ejecutarOp "1"
+>>>>>>> 7a1cd3c52b998c56d06b53ca542b987f954eff44
   "1" -> do
     putStrLn ""
     putStrLn "-------INFORMACIÓN-------"
