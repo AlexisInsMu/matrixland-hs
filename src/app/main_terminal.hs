@@ -112,29 +112,6 @@ ejecutarOp op = case op of
 
 ejecutarOp1 :: String -> IO ()
 ejecutarOp1 op1 = case op1 of
-    "1" -> do
-        putStrLn ""
-        putStrLn "-------INFORMACIÓN-------"
-        putStrLn ""
-        ejecutarOp "1"
-    "2" -> do
-        putStrLn ""
-        putStrLn "-------QUIZ POTENCIA DE MATRICES-------"
-        putStrLn ""
-        ejecutarOp "1"
-    "3" -> do
-        putStrLn ""
-        putStrLn "-------CALCULADORA PARA POTENCIAS DE MATRICES-------"
-        putStrLn ""
-        ejecutarOp "1"
-    "4" -> do
-        putStrLn ""
-        main
-    _   -> do
-        putStrLn ""
-        putStrLn "No válida. Intenta de nuevo."
-        putStrLn ""
-        ejecutarOp "1"
   "1" -> do
     putStrLn ""
     putStrLn "-------INFORMACIÓN-------"
