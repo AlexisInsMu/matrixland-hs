@@ -41,85 +41,73 @@ instance ToJSON ScreenClass
 instance FromJSON Info
 instance ToJSON Info
 {-- DisplayScreen, imprime el contenido de un json interactuable con numeros--}
-displayScreen :: FilePath -> (String -> IO())  -> IO ()
-displayScreen filePath handleInput do
+displayScreen :: FilePath -> (String -> IO())  -> (Info -> ScreenClass) -> String -> IO  ()
+displayScreen filePath handleInput selectScreen control do
   clearScreen
   jsonData <- B.readFile filePath
   let _Data =  decode jsonData :: Maybe Info
-  case _Data of 
-    Just info -> do
-      putStrLn $ text (screen_menu info)
-      hFlush stdout
-      op <- getLine
-      handleInput op
-    Nothing -> "Failed to aprse Json"
+  if control == "" then
+    case _Data of 
+      Just info -> do
+        let screen = selectScreen info
+        putStrLn $ text screen
+        hFlush stdout
+        op <- getLine
+        handleInput op
+      Nothing -> "Failed to parse Json"
+  else
+    case _Data of 
+      Just info -> do
+        let screen = selectScreen info
+        putStrLn $ text screen
+        hFlush stdout
+        handleInput control
+        waitForAnyKey
+      Nothing -> "Failed to parse Json"
 
 
 main :: IO ()
 main = do
-  displayScreen "../data/info.json" ejecutarOp
+  displayScreen "../data/info.json" ejecutarOp sreeen_menu ""
 
 ejecutarOp :: String -> IO ()
 ejecutarOp op = case op of
   "1" -> do
-    liftIo clearScreen
-    hFlush stdout -- Vaciar el búfer de salida
-    op1 <- getLine
-    ejecutarOp1 op1
+    displayScreen "../data/info.json" ejecutarOp1 screen_1 ""
   "2" -> do
-    result <- system "clear"
-    case result of
-      ExitSuccess -> putStrLn ""
-      ExitFailure _ -> putStrLn ""
-
-    putStrLn ""
-    putStrLn "---------MATRIZ IDENTIDAD---------"
-    putStrLn "1) Aprender más"
-    putStrLn "2) Quiz"
-    putStrLn "3) Calculadora"
-    putStrLn "4) Regresar al menú principal"
-    putStr "¿Qué deseas aprender? "
-    putStrLn ""
-    hFlush stdout -- Vaciar el búfer de salida
-    op2 <- getLine
-    ejecutarOp2 op2
-  "3" -> do
-    putStrLn ""
-    putStrLn "---------MULTIPLICACIÓN DE MATRICES---------"
-    putStrLn "1) Aprender más"
-    putStrLn "2) Quiz"
-    putStrLn "3) Calculadora"
-    putStrLn "4) Regresar al menú principal"
-    putStr "¿Qué deseas aprender? "
-    putStrLn ""
-    hFlush stdout -- Vaciar el búfer de salida
-    op3 <- getLine
-    ejecutarOp3 op3
+    displayScreen "../data/info.json" ejecutarOp2 screen_2 ""
+  "3" -> do 
+    displayScreen "../data/info.json" ejecutarOp3 screen_3 ""
   "4" -> do
+    clearScreen
     putStrLn "Saliendo..."
   _ -> do
+    clearScreen
     putStrLn "No válida. Intenta de nuevo."
     main
 
 ejecutarOp1 :: String -> IO ()
 ejecutarOp1 op1 = case op1 of
     "1" -> do
+        displayScreen "../data/info.json" ejecutarOp screen_info_1 "1"
         putStrLn ""
         putStrLn "-------INFORMACIÓN-------"
         putStrLn "Antes que nada, debemos recordar que la potencia de una matriz no "
-        siempre se puede calcular. Sólo es posible cuando 
-        la matriz es cuadrada, es decir, cuando tiene el mismo número de filas que de columnas."
+        "siempre se puede calcular. Sólo es posible cuando "
+        "la matriz es cuadrada, es decir, cuando tiene el mismo número de filas que de columnas."
         putStrLn "La peculiaridad de la potenciación de las matrices es que, en muchas matrices, 
         las potencias siguen un patrón. Por ejemplo, las potencia n-ésima de una matriz diagonal 
-        A es también una matriz diagonal cuyos elementos de la diagonal son las potencias 
+        A es también una matriz diagonal cuyos elementos de la diagonal son las potencias ""
         n-ésimas de los elementos de la diagonal de la matriz A:"
         ejecutarOp "1"
     "2" -> do
+        displayScreen "../data/info.json" ejecutarOp screen_info_2 "1"
         putStrLn ""
         putStrLn "-------QUIZ POTENCIA DE MATRICES-------"
         putStrLn ""
         ejecutarOp "1"
     "3" -> do
+        displayScreen "../data/info.json" ejecutarOp screen_info_3 "1"
         putStrLn ""
         putStrLn "-------CALCULADORA PARA POTENCIAS DE MATRICES-------"
         putStrLn ""
