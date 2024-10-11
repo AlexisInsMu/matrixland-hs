@@ -23,12 +23,15 @@ import Data.Aeson
 import GHC.Generics
 import qualified Data.ByteString.Lazy as B
 
+
+{-- Data class--}
 data ScreenClass = ScreenClass
   {text:: String
   , images :: String
   }
   deriving (Show, Generic)
 
+{--JSON data--}
 data Info = Info
   { screen_prin :: ScreenClass
   , screen_1 :: ScreenClass
