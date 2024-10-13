@@ -4,8 +4,8 @@
     },
 
     "screen_1":{
-        "texto":"-------INFORMACIÓN-------\n Antes que nada, debemos recordar que la potencia de una matriz no \n siempre se puede calcular. Sólo es posible cuando la matriz es cuadrada, \n es decir, cuando tiene el mismo número de filas que de columnas.\n La peculiaridad de la potenciación de las matrices es que, en muchas matrices, \n las potencias siguen un patrón. Por ejemplo, las potencia n-ésima de una matriz \n diagonal A es también una matriz diagonal cuyos elementos de la diagonal son las \n potencias n-ésimas de los elementos de la diagonal de la matriz A:\n",
-        "image": "../images/potencia1.png"
+        "texto":"-------INFORMACIÓN-------\nDividimos el trabajo usando la representación binaria del exponente.\nDado que el número tiene exactamente [log(n)+1] dígitos en base 2, \nsolo necesitamos realizar O(log n) multiplicaciones si conocemos las potencias.\n Afortunadamente, esto es muy fácil, ya que un elemento de la secuencia es \nsolo el cuadrado del elemento anterior.",
+        "image": "../images/exponenciacion1.png"
     },
 
     "screen_2":{
@@ -21,5 +21,15 @@
     "sreeen_menu":{
         "text": "\n---------BIENVENIDO---------\n---------Menú principal---------\n1) Potencia de matrices\n2) Matriz identidad\n3) Multiplicación de matrices\n4) Salir\n¿Qué deseas aprender? \n\n",
         "images": "../images/imagencita.png"
+    },
+
+    "screen_quiz1":{
+        "texto": "-------QUIZ EXPONENCIACION BINARIA DE MATRICES-------\n1)Un elemento de la secuencia de potencias se puede obtener cuadrando el elemento anterior.\n2)El número de dígitos en base 2 de un número n es aproximadamente [log(n) + 1]."
+    },
+    "screen_quiz2":{
+        "texto": "-------QUIZ MATRIZ IDENTIDAD-------\n1)La matriz identidad es una matriz cuadrada en la que todos los elementos fuera de la diagonal principal son ceros.\n 2)En la matriz identidad, los elementos de la diagonal principal son todos ceros."
+    },
+    "screen_quiz3":{
+        "texto": "-------QUIZ MULTIPLICACION DE MATRICES-------\n1)El elemento Cij de la matriz producto se obtiene sumando los elementos correspondientes de la fila i de A y la columna j de B, sin realizar multiplicaciones.\n2)Dos matrices A y B son multiplicables si el número de columnas de A es igual al número de filas de B."
     }
 }
