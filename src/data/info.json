@@ -1,37 +1,44 @@
 {
     "screen_select":{
-        "text":"-------Arranque-------\n¿Qué versión desea iniciar?\n1) Versión de consola\n2) Versión gráfica\n3) Salir\n\n",
-        "image":"../images/exponenciacion1.png"
+        "text":"-------Arranque-------\n\n\t\t¿Qué versión desea iniciar?\n\n\t\t1) Versión de consola\n\n\t\t2) Versión gráfica\n\n\t\t3) Salir\n\n\t\t\n\n\t\t",
+        "images":"../images/exponenciacion1.png"
     },
 
 
     "screen_1":{
-        "texto":"-------INFORMACIÓN-------\nDividimos el trabajo usando la representación binaria del exponente.\nDado que el número tiene exactamente [log(n)+1] dígitos en base 2, \nsolo necesitamos realizar O(log n) multiplicaciones si conocemos las potencias.\n Afortunadamente, esto es muy fácil, ya que un elemento de la secuencia es \nsolo el cuadrado del elemento anterior.",
-        "image": "../images/exponenciacion1.png"
+        "text":"-------INFORMACIÓN-------\n\n\t\tDividimos el trabajo usando la representación binaria del exponente.\n\n\t\tDado que el número tiene exactamente [log(n)+1] dígitos en base 2, \n\n\t\tsolo necesitamos realizar O(log n) multiplicaciones si conocemos las potencias.\n\n\t\t Afortunadamente, esto es muy fácil, ya que un elemento de la secuencia es \n\n\t\tsolo el cuadrado del elemento anterior.",
+        "images": "../images/exponenciacion1.png"
     },
 
     "screen_2":{
-        "texto":"-------INFORMACIÓN-------\n La matriz Identidad (o Unidad) es una matriz cuadrada llena de \n ceros (0) excepto en la diagonal principal, \ndonde todos los elementos son unos (1).",
-        "image": "../images/identidad1.png"  
+        "text":"-------INFORMACIÓN-------\n\n\t\t La matriz Identidad (o Unidad) es una matriz cuadrada llena de \n\n\t\t ceros (0) excepto en la diagonal principal, \n\n\t\tdonde todos los elementos son unos (1).",
+        "images": "../images/identidad1.png"  
     },
 
     "screen_3":{
-        "texto": "-------INFORMACIÓN-------\n Dos matrices A y B son multiplicables si el número de columnas \n de A coincide con el número de filas de B. \n El elemento Cij de la matriz producto se obtiene \n multiplicando cada elemento de la fila i de la matriz A \n por cada elemento de la columna j de la matriz B y sumándolos.",
-        "image": "../images/multiplicacion1.png"
+        "text": "-------INFORMACIÓN-------\n\n\t\t Dos matrices A y B son multiplicables si el número de columnas \n\n\t\t de A coincide con el número de filas de B. \n\n\t\t El elemento Cij de la matriz producto se obtiene \n\n\t\t multiplicando cada elemento de la fila i de la matriz A \n\n\t\t por cada elemento de la columna j de la matriz B y sumándolos.",
+        "images": "../images/multiplicacion1.png"
     },
 
-    "sreeen_menu":{
-        "texto": "\n---------BIENVENIDO---------\n---------Menú principal---------\n1) Potencia de matrices\n2) Matriz identidad\n3) Multiplicación de matrices\n4) Salir\n¿Qué deseas aprender? \n\n",
+    "screen_menu":{
+        "text": "\n\n\t\t---------BIENVENIDO---------\n\n\t\t---------Menú principal---------\n\n\t\t1) Potencia de matrices\n\n\t\t2) Matriz identidad\n\n\t\t3) Multiplicación de matrices\n\n\t\t4) Salir\n\n\t\t¿Qué deseas aprender? \n\n\t\t\n\n\t\t",
         "images": "../images/imagencita.png"
     },
 
     "screen_quiz1":{
-        "texto": "-------QUIZ EXPONENCIACION BINARIA DE MATRICES-------\n1)Un elemento de la secuencia de potencias se puede obtener cuadrando el elemento anterior.\n2)El número de dígitos en base 2 de un número n es aproximadamente [log(n) + 1]."
+        "text": "-------QUIZ EXPONENCIACION BINARIA DE MATRICES-------\n\n\t\t1)Un elemento de la secuencia de potencias se puede obtener cuadrando el elemento anterior.\n\n\t\t2)El número de dígitos en base 2 de un número n es aproximadamente [log(n) + 1].",
+        "images":"../images/exponenciacion1.png"
     },
     "screen_quiz2":{
-        "texto": "-------QUIZ MATRIZ IDENTIDAD-------\n1)La matriz identidad es una matriz cuadrada en la que todos los elementos fuera de la diagonal principal son ceros.\n 2)En la matriz identidad, los elementos de la diagonal principal son todos ceros."
+        "text": "-------QUIZ MATRIZ IDENTIDAD-------\n\n\t\t1)La matriz identidad es una matriz cuadrada en la que todos los elementos fuera de la diagonal principal son ceros.\n\n\t\t 2)En la matriz identidad, los elementos de la diagonal principal son todos ceros.",
+        "images":"../images/exponenciacion1.png"
     },
     "screen_quiz3":{
-        "texto": "-------QUIZ MULTIPLICACION DE MATRICES-------\n1)El elemento Cij de la matriz producto se obtiene sumando los elementos correspondientes de la fila i de A y la columna j de B, sin realizar multiplicaciones.\n2)Dos matrices A y B son multiplicables si el número de columnas de A es igual al número de filas de B."
+        "text": "-------QUIZ MULTIPLICACION DE MATRICES-------\n\n\t\t1)El elemento Cij de la matriz producto se obtiene sumando los elementos correspondientes de la fila i de A y la columna j de B, sin realizar multiplicaciones.\n\n\t\t2)Dos matrices A y B son multiplicables si el número de columnas de A es igual al número de filas de B.",
+        "images":"../images/exponenciacion1.png"
+    },
+    "screen_option":{
+        "text": "\n\n\t\t1) Aprender más\t\t\n\n2) Quiz\t\t\n\n3) Calculadora\t\t\n\n4) Regresar al menú principal\t\t\n\n¿Qué deseas aprender?\t\t\n\n",
+        "images":"../images/exponenciacion1.png"
     }
 }

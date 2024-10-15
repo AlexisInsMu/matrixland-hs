@@ -97,7 +97,8 @@ executable matrixland
                       array,
                       process,
                       matrixland, 
-                      aeson
+                      aeson,
+                      bytestring
                       
 
     -- Directories containing source files.

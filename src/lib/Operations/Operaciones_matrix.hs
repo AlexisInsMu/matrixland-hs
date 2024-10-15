@@ -4,10 +4,7 @@ module Operations.Operaciones_matrix
     , identMatriz
     ) where
 
-import Data.Array ( array, bounds, elems, ixmap, Array )
-
-identity :: Num a => Int -> Array (Int, Int) a
-identity n = array ((1, 1), (n, n)) [((i, j), fromIntegral (fromEnum (i == j))) | i <- [1..n], j <- [1..n]]
+import Data.Array
 
 -- Definimos una función para obtener el producto escalar de los vectores.
 prodEscalar :: Num a => Array Int a -> Array Int a -> a
@@ -34,8 +31,8 @@ multiMatriz p q =
 
 --map: Le aplica la función de los parentesis a la lista que ponemos, elemento a elemento.
 
-identMatriz :: Int -> [[Int]]
-identMatriz n = map(\i -> map (\j -> if i == j then 1 else 0) [0..n-1]) [0..n-1]
+identMatriz :: Num a => Int -> [[a]]
+identMatriz n = map (\i -> map (\j -> if i == j then 1 else 0) [0..n-1]) [0..n-1]
 
 -- Funciones auxiliares para obtener filas y columnas
 fila :: Int -> Array (Int, Int) a -> Array Int a
@@ -54,7 +51,17 @@ noColumnas :: Array (Int, Int) a -> Int
 noColumnas q = n
     where (_, (_, n)) = bounds q
 
+arrayToList :: Array (Int, Int) Int -> [[Int]]
+arrayToList arr = [[arr ! (i, j) | j <- [0..n-1]] | i <- [0..m-1]]
+  where
+    m = noFilas arr
+    n = noColumnas arr
 
+listToArray :: Num a => [[a]] -> Array (Int, Int) a
+listToArray xss = array ((0, 0), (rows - 1, cols - 1)) [((i, j), xss !! i !! j) | i <- [0..rows-1], j <- [0..cols-1]]
+  where
+    rows = length xss
+    cols = length (head xss)
 {-- Potenciación de matrices --}
 {--
 
@@ -74,13 +81,13 @@ fastExpo p n
 
 -- Función para obetner el inverso de una matriz
 inverso :: Num a => Array (Int, Int) a -> Array (Int, Int) a
-inverso p = array ((1, 1), (m, n)) [((i, j), -p!(i, j)) | i <- [1..m], j <- [1..n]]
+inverso p = array ((1, 1), (m, n)) [((i, j),- (p ! (i, j))) | i <- [1..m], j <- [1..n]]
     where
         m = noFilas p
         n = noColumnas p
 
 exponention :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
 exponention p n
-    | n == 0 = identity (noFilas p)
-    | n < 0 = fastExpo (inverso p) -n
+    | n == 0 = listToArray (identMatriz (noFilas p))
+    | n < 0 = fastExpo (inverso p) (-n)
     | otherwise = fastExpo p n
