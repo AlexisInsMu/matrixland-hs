@@ -12,6 +12,7 @@ import Control.Concurrent (threadDelay)
 import Data.Aeson
 import GHC.Generics
 import qualified Data.ByteString.Lazy as B
+import Data.List.Split (splitOn)
 --import System.Process (system)
 
 -- mainterminal :: IO ()
@@ -56,8 +57,12 @@ instance ToJSON ScreenClass
 instance FromJSON Info
 instance ToJSON Info
 
+-- Lambda function to extract dato1 and dato2 from a
+extractDatos :: String -> (String, String)
+extractDatos = (\a -> let [dato1, dato2] = splitOn "/" a in (dato1, dato2))
+
 {-- DisplayScreen, imprime el contenido de un json interactuable con numeros--}
-displayScreen :: FilePath -> (String -> IO())  -> (Info -> ScreenClass) -> String -> String -> IO  ()
+displayScreen :: FilePath -> (String  -> IO())  -> (Info -> ScreenClass) -> String -> String -> IO  ()
 displayScreen filePath handleInput selectScreen control place_select = do
   clearScreen
   jsonData <- B.readFile filePath
@@ -80,13 +85,35 @@ displayScreen filePath handleInput selectScreen control place_select = do
         let screen = selectScreen info
         putStrLn $ place_select
         putStrLn $ text screen
+        putStrLn "\nPoner primera opcion: (Y/y)Yes , (N/n)No"
         hFlush stdout
-        op <- getLine
-        handleInput op
+        input1 <- getLine
+        putStrLn "\nPoner segunda opcion: "
+        hFlush stdout
+        input0 <- getLine
+        let dato1 = read input1:: String
+        let dato2 = read input0:: String
+        handleInput (dato1 ++ "/" ++ dato2)
+        return ()
+
       Nothing -> do
         putStrLn "Failed to parse Json\n press q to exit"
         op <- getLine
         exitSuccess
+  else if control == "-" then
+    case _Data of 
+      Just info -> do
+        let screen = selectScreen info
+        putStrLn $ text screen
+        hFlush stdout
+        op <- getLine
+        handleInput op
+
+      Nothing -> do 
+        putStrLn "Failed to parse Json\n press q to exit"
+        op <- getLine
+        exitSuccess
+
   else
     case _Data of 
       Just info -> do
@@ -117,6 +144,17 @@ ejecutarOp_a op = case op of
     putStrLn "No válida. Intenta de nuevo."
     main
 
+ejecutarOp_q :: String -> IO()
+ejecutarOp_q op = do
+  let (dato1, dato2) = extractDatos op
+  if ((dato1 == "Y" or dato1 == "y") and (dato2 == "Y" or dato2 == "y")) then 
+    putStrLn "Lo hiciste bien !"
+    threadDelay 3000000  -- Espera de 2 segundos
+  else 
+    
+
+
+
 ejecutarOp :: String -> IO ()
 ejecutarOp op = case op of
   "1" -> do
@@ -139,7 +177,7 @@ ejecutarOp1 op1 = case op1 of
   "1" -> do
     displayScreen "./src/data/info.json" ejecutarOp screen_1 "1" ""
   "2" -> do
-    displayScreen "./src/data/info.json" ejecutarOp screen_quiz1 "" ""
+    displayScreen "./src/data/info.json" ejecutarOp screen_quiz1 "-" ""
 
   "3" -> do
     putStrLn ""
