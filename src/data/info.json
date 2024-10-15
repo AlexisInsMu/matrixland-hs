@@ -1,7 +1,9 @@
 {
-    "screen_prin":{
-
+    "screen_select":{
+        "text":"-------Arranque-------\n¿Qué versión desea iniciar?\n1) Versión de consola\n2) Versión gráfica\n3) Salir\n\n",
+        "image":"../images/exponenciacion1.png"
     },
+
 
     "screen_1":{
         "texto":"-------INFORMACIÓN-------\nDividimos el trabajo usando la representación binaria del exponente.\nDado que el número tiene exactamente [log(n)+1] dígitos en base 2, \nsolo necesitamos realizar O(log n) multiplicaciones si conocemos las potencias.\n Afortunadamente, esto es muy fácil, ya que un elemento de la secuencia es \nsolo el cuadrado del elemento anterior.",
