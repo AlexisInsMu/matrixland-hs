@@ -113,8 +113,6 @@ ejecutarOp op = case op of
 
 ejecutarOp1 :: String -> IO ()
 ejecutarOp1 op1 = case op1 of
-<<<<<<< HEAD
-=======
     "1" -> do
         displayScreen "../data/info.json" ejecutarOp screen_info_1 "1"
         putStrLn ""
@@ -147,7 +145,6 @@ ejecutarOp1 op1 = case op1 of
         putStrLn "No válida. Intenta de nuevo."
         putStrLn ""
         ejecutarOp "1"
->>>>>>> 7a1cd3c52b998c56d06b53ca542b987f954eff44
   "1" -> do
     putStrLn ""
     putStrLn "-------INFORMACIÓN-------"
@@ -223,3 +220,4 @@ ejecutarOp3 op3 = case op3 of
     putStrLn "No válida. Intenta de nuevo."
     putStrLn ""
     ejecutarOp "3"
+

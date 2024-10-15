@@ -1,6 +1,7 @@
 module Operations.Operaciones_matrix
     ( prodEscalar
     , multiMatriz
+    , identMatriz
     ) where
 
 import Data.Array ( array, bounds, elems, ixmap, Array )
@@ -21,6 +22,20 @@ multiMatriz p q =
     where
         m = noFilas p
         n = noColumnas q
+
+-- Matriz Identidad:
+-- n guarda el tamaño de la matriz, ya que para la identidad es nxn
+-- El primer <map> itera sobre cada fila i. Para c/valor, genera un fila con una lambda.
+-- El segundo <map>, para cada fila respectivamente itera sobre cada columna j
+-- y la lambda define si en es posición va un 1 o 0. Esto lo hace con el if.
+-- Si los indice i y j son iguales (osea estan en la diagonal principal)
+-- pone un cero, si son diferentes pone un cero.
+-- Y así de vuelve una lista de n listas con n valores.
+
+--map: Le aplica la función de los parentesis a la lista que ponemos, elemento a elemento.
+
+identMatriz :: Int -> [[Int]]
+identMatriz n = map(\i -> map (\j -> if i == j then 1 else 0) [0..n-1]) [0..n-1]
 
 -- Funciones auxiliares para obtener filas y columnas
 fila :: Int -> Array (Int, Int) a -> Array Int a
