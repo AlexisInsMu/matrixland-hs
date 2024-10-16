@@ -76,7 +76,6 @@ inverso p = array ((1, 1), (m, n)) [((i, j),- (p ! (i, j))) | i <- [1..m], j <- 
         m = noFilas p
         n = noColumnas p
 
-<<<<<<< HEAD
 fastExpo :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
 fastExpo p 1 = p
 fastExpo p n
@@ -85,10 +84,8 @@ fastExpo p n
 
 exponention :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
 exponention p n
-=======
 exponentation :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
 exponentation p n
->>>>>>> 48a8859b2e2ac15904beca2a05cbccc4f41de506
     | n == 0 = listToArray (identMatriz (noFilas p))
     | n < 0 = fastExpo (inverso p) (-n)
     | otherwise = fastExpo p n
