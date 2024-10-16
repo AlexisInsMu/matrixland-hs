@@ -1,14 +1,16 @@
 {--Importar librerias--}
 {-# LANGUAGE BlockArguments #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use camelCase" #-}
 
-import System.Exit (ExitCode (ExitFailure, ExitSuccess), exitSuccess)
+import System.Exit (exitSuccess)
 import System.IO (hFlush, stdout)
-
-import System.Console.Haskeline
-    ( defaultSettings, getInputChar, outputStrLn, runInputT, InputT)
-import System.Console.ANSI ( clearScreen, setCursorPosition )
+import Control.Monad (replicateM)
+import Data.Array (array)
+import System.Console.ANSI ( clearScreen )
 import Control.Monad.IO.Class (liftIO)
 import Control.Concurrent (threadDelay)
+import Operations.Operaciones_matrix (multiMatriz, identMatriz, listToArray)
 import Data.Aeson
 import GHC.Generics
 import qualified Data.ByteString.Lazy as B
@@ -39,11 +41,12 @@ data ScreenClass = ScreenClass
   deriving (Show, Generic)
 
 
-data ScreenQuiz = ScreenQuiz  
-  {text:: String
-  , images :: String
-  }
-  deriving (Show, Generic)
+-- data ScreenQuiz = ScreenQuiz  
+--   {text:: String
+--   ,text2 :: String
+--   , respuestas :: String
+--   }
+--   deriving (Show, Generic)
 
 {--JSON data--}
 data Info = Info
@@ -75,7 +78,7 @@ displayScreen filePath handleInput selectScreen control place_select = do
   jsonData <- B.readFile filePath
   let _Data =  decode jsonData :: Maybe Info
   if control == "" then
-    case _Data of 
+    case _Data of
       Just info -> do
         let screen = selectScreen info
         putStrLn $ text screen
@@ -87,7 +90,7 @@ displayScreen filePath handleInput selectScreen control place_select = do
         op <- getLine
         exitSuccess
   else if control == "+" then
-    case _Data of 
+    case _Data of
       Just info -> do
         let screen = selectScreen info
         putStrLn $ place_select
@@ -108,7 +111,7 @@ displayScreen filePath handleInput selectScreen control place_select = do
         op <- getLine
         exitSuccess
   else if control == "-" then
-    case _Data of 
+    case _Data of
       Just info -> do
         let screen = selectScreen info
         putStrLn $ text screen
@@ -116,20 +119,20 @@ displayScreen filePath handleInput selectScreen control place_select = do
         op <- getLine
         handleInput op
 
-      Nothing -> do 
+      Nothing -> do
         putStrLn "Failed to parse Json\n press q to exit"
         op <- getLine
         exitSuccess
 
   else
-    case _Data of 
+    case _Data of
       Just info -> do
         let screen = selectScreen info
         putStrLn $ text screen
         hFlush stdout
         op <- getLine
         handleInput control
-      Nothing -> do 
+      Nothing -> do
         putStrLn "Failed to parse Json\n press q to exit"
         op <- getLine
         exitSuccess
@@ -143,7 +146,7 @@ ejecutarOp_a op = case op of
     --- aqui va main terminal
     putStrLn "Aqui va algo"
     liftIO exitSuccess
-  "3" -> do 
+  "3" -> do
     clearScreen
     putStrLn "Saliendo..."
     liftIO exitSuccess
@@ -155,12 +158,17 @@ ejecutarOp_a op = case op of
 ejecutarOp_q :: String -> IO()
 ejecutarOp_q op = do
   let (dato1, dato2) = extractDatos op
-  if ((dato1 == "Y" or dato1 == "y") and (dato2 == "Y" or dato2 == "y")) then 
-    putStrLn "Lo hiciste bien !"
-    threadDelay 3000000  -- Espera de 2 segundos
+  if (dato1 == "Y" || dato1 == "y") && (dato2 == "Y" || dato2 == "y") 
+    then do
+      putStrLn "Lo hiciste bien !"
+      threadDelay 3000000  -- Espera de 2 segundos
+      op <- getLine
+      return ()
+    else do
+      putStrLn "aqui"
+      op <- getLine
+      return ()
 
-  else 
-    
 
 
 
@@ -170,7 +178,7 @@ ejecutarOp op = case op of
     displayScreen "./src/data/info.json" ejecutarOp1 screen_option "+" "Potencia de matrices"
   "2" -> do
     displayScreen "./src/data/info.json" ejecutarOp2 screen_option "+" "Matriz identidad"
-  "3" -> do 
+  "3" -> do
     displayScreen "./src/data/info.json" ejecutarOp3 screen_option "+" "Multiplicación de matrices"
   "4" -> do
     clearScreen
@@ -187,7 +195,6 @@ ejecutarOp1 op1 = case op1 of
     displayScreen "./src/data/info.json" ejecutarOp screen_1 "1" ""
   "2" -> do
     displayScreen "./src/data/info.json" ejecutarOp screen_quiz1 "-" ""
-
   "3" -> do
     putStrLn ""
     putStrLn "-------CALCULADORA PARA POTENCIAS DE MATRICES-------"
@@ -236,10 +243,7 @@ ejecutarOp3 op3 = case op3 of
     putStrLn ""
     displayScreen "./src/data/info.json" ejecutarOp screen_quiz3 "" ""
   "3" -> do
-    putStrLn ""
-    putStrLn "-------CALCULADORA PARA MULTIPLICACIÓN DE MATRICES-------"
-    putStrLn ""
-    displayScreen "./src/data/info.json" ejecutarOp screen_3 "" ""
+    mainmulti
   "4" -> do
     putStrLn "Regrasando"
     threadDelay 2000000  -- Espera de 2 segundos
@@ -266,6 +270,9 @@ main = do
 --Main de la calculadora de multiplicación de matrices
 mainmulti :: IO ()
 mainmulti = do
+    putStrLn ""
+    putStrLn "-------CALCULADORA PARA MULTIPLICACIÓN DE MATRICES-------"
+    putStrLn ""
     -- Solicitar al usuario las dimensiones de la primera matriz
     putStrLn "Recuerde que para la multiplicación las matrices deben ser cuadradas."
     putStrLn "Ingrese las dimensiones de la primera matriz (filas columnas):"
@@ -282,7 +289,12 @@ mainmulti = do
 
     -- Verificar si las matrices pueden ser multiplicadas
     if n /= k
-        then putStrLn "Las matrices no se pueden multiplicar. El número de columnas de la primera debe ser igual al número de filas de la segunda."
+        then  do
+
+          putStrLn "Las matrices no se pueden multiplicar. El número de columnas de la primera debe ser igual al número de filas de la segunda."
+          threadDelay 3000000
+          putStrLn "\n\n Reintentando"
+          mainmulti
         else do
             -- Solicitar los elementos de la segunda matriz
             putStrLn "Ingrese los elementos de la segunda matriz (por filas):"
@@ -293,16 +305,18 @@ mainmulti = do
             let resultado = multiMatriz p q
             putStrLn "El resultado de la multiplicación es:"
             print resultado
+            displayScreen "./src/data/info.json" ejecutarOp3 screen_option "+" "Multiplicación de matrices"
+
 
 
 --Main para la calculadora de matriz identidad.
-mainidentity :: do ()
-mainindetity = do
+mainidentity :: IO ()
+mainidentity = do
   putStrLn "Recuerde que las matrices identidad son cuadradas."
-  putStrLn "Ingrese el tamaño de su matriz identidad."
   n <- readLn :: IO Int
+  putStrLn "Ingrese el tamaño de su matriz identidad."
   --Generamos la matriz identidad al llamar la función.
-  let matrizI = identMatrix n
+  let matrizI = identMatriz n
   --Convertimos la lista en una listas a un array.
   let matrizIA = listToArray matrizI
   --Mandamos a pantalla el resultado.

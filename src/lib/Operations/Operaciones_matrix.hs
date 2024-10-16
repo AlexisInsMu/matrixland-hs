@@ -2,6 +2,8 @@ module Operations.Operaciones_matrix
     ( prodEscalar
     , multiMatriz
     , identMatriz
+    , exponention
+    , listToArray
     ) where
 
 import Data.Array
