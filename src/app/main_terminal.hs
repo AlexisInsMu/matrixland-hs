@@ -324,7 +324,7 @@ mainidentity = do
   print matrizIA
 
 --Main para la calculadora de exponenciacion binaria.
-mainexpo :: do()
+mainexpo :: IO()
 mainexpo = do
   -- Solicitar al usuario las dimensiones de la matriz
   putStrLn "Recuerde que la matriz debe ser cuadrada."
@@ -342,4 +342,4 @@ mainexpo = do
 
   let result = exponention p n
   putStrLn "El resultado de la exponenciacion es:"
-            print resultado
+  print result

@@ -57,19 +57,6 @@ noColumnas :: Array (Int, Int) a -> Int
 noColumnas q = n
     where (_, (_, n)) = bounds q
 
-arrayToList :: Array (Int, Int) Int -> [[Int]]
-arrayToList arr = [[arr ! (i, j) | j <- [0..n-1]] | i <- [0..m-1]]
-  where
-    m = noFilas arr
-    n = noColumnas arr
-
-listToArray :: Num a => [[a]] -> Array (Int, Int) a
-listToArray xss = array ((0, 0), (rows - 1, cols - 1)) [((i, j), xss !! i !! j) | i <- [0..rows-1], j <- [0..cols-1]]
-  where
-    rows = length xss
-    cols = length (head xss)
-
-
 {-- Potenciación de matrices --}
 {--
 
@@ -81,21 +68,36 @@ listToArray xss = array ((0, 0), (rows - 1, cols - 1)) [((i, j), xss !! i !! j) 
     La función se basa en la propiedad de que si n es par, entonces A^n = (A^2)^(n/2), y si n es impar, entonces A^n = A * A^(n-1).
     De esta forma, se reduce el número de multiplicaciones necesarias para obtener la matriz elevada a la potencia n.
  --}
-fastExpo :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
-fastExpo p 1 = p
-fastExpo p n
-    | even n = fastExpo (multiMatriz p p) (n `div` 2)
-    | otherwise = multiMatriz p (fastExpo p (n - 1))
 
--- Función para obetner el inverso de una matriz
+ -- Función para obetner el inverso de una matriz
 inverso :: Num a => Array (Int, Int) a -> Array (Int, Int) a
 inverso p = array ((1, 1), (m, n)) [((i, j),- (p ! (i, j))) | i <- [1..m], j <- [1..n]]
     where
         m = noFilas p
         n = noColumnas p
 
+fastExpo :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
+fastExpo p 1 = p
+fastExpo p n
+    | even n = fastExpo (multiMatriz p p) (n `div` 2)
+    | otherwise = multiMatriz p (fastExpo p (n - 1))
+
 exponention :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
 exponention p n
     | n == 0 = listToArray (identMatriz (noFilas p))
     | n < 0 = fastExpo (inverso p) (-n)
     | otherwise = fastExpo p n
+
+-- Function to convert a list of lists to an array
+listToArray :: Num a => [[a]] -> Array (Int, Int) a
+listToArray xss = array ((0, 0), (rows - 1, cols - 1)) [((i, j), xss !! i !! j) | i <- [0..rows-1], j <- [0..cols-1]]
+  where
+    rows = length xss
+    cols = length (head xss)
+
+-- Function to convert an array to a list of lists
+arrayToList :: Array (Int, Int) Int -> [[Int]]
+arrayToList arr = [[arr ! (i, j) | j <- [0..n-1]] | i <- [0..m-1]]
+  where
+    m = noFilas arr
+    n = noColumnas arr
