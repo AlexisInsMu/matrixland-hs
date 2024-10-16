@@ -323,11 +323,7 @@ mainidentity = do
   print matrizIA
 
 --Main para la calculadora de exponenciacion binaria.
-<<<<<<< HEAD
-mainexpo :: IO()
-=======
 mainexpo :: IO ()
->>>>>>> 48a8859b2e2ac15904beca2a05cbccc4f41de506
 mainexpo = do
   -- Solicitar al usuario las dimensiones de la matriz
   putStrLn "Recuerde que la matriz debe ser cuadrada."
