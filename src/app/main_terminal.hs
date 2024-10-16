@@ -176,11 +176,11 @@ ejecutarOp_q op = do
 ejecutarOp :: String -> IO ()
 ejecutarOp op = case op of
   "1" -> do
-    displayScreen "./src/data/info.json" ejecutarOp1 screen_option "" "Potencia de matrices"
+    displayScreen "./src/data/info.json" ejecutarOp1 screen_option "-" "Potencia de matrices"
   "2" -> do
-    displayScreen "./src/data/info.json" ejecutarOp2 screen_option "" "Matriz identidad"
+    displayScreen "./src/data/info.json" ejecutarOp2 screen_option "-" "Matriz identidad"
   "3" -> do
-    displayScreen "./src/data/info.json" ejecutarOp3 screen_option "" "Multiplicación de matrices"
+    displayScreen "./src/data/info.json" ejecutarOp3 screen_option "-" "Multiplicación de matrices"
   "4" -> do
     clearScreen
     putStrLn "Saliendo..."
