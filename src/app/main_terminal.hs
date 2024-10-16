@@ -256,8 +256,8 @@ main = do
 
 
 --Main de la calculadora de multiplicación de matrices
-main :: IO ()
-main = do
+mainmulti :: IO ()
+mainmulti = do
     -- Solicitar al usuario las dimensiones de la primera matriz
     putStrLn "Recuerde que para la multiplicación las matrices deben ser cuadradas."
     putStrLn "Ingrese las dimensiones de la primera matriz (filas columnas):"
@@ -288,8 +288,8 @@ main = do
 
 
 --Main para la calculadora de matriz identidad.
-main :: do ()
-main = do
+mainidentity :: do ()
+mainindetity = do
   putStrLn "Recuerde que las matrices identidad son cuadradas."
   putStrLn "Ingrese el tamaño de su matriz identidad."
   n <- readLn :: IO Int
