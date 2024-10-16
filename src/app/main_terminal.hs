@@ -10,7 +10,7 @@ import Data.Array (array)
 import System.Console.ANSI ( clearScreen )
 import Control.Monad.IO.Class (liftIO)
 import Control.Concurrent (threadDelay)
-import Operations.Operaciones_matrix (multiMatriz, identMatriz, listToArray)
+import Operations.Operaciones_matrix (multiMatriz, identMatriz, listToArray, exponentation)
 import Data.Aeson
 import GHC.Generics
 import qualified Data.ByteString.Lazy as B
@@ -113,6 +113,7 @@ displayScreen filePath handleInput selectScreen control place_select = do
   else if control == "-" then
     case _Data of
       Just info -> do
+        putStrLn $ place_select
         let screen = selectScreen info
         putStrLn $ text screen
         hFlush stdout
@@ -175,11 +176,11 @@ ejecutarOp_q op = do
 ejecutarOp :: String -> IO ()
 ejecutarOp op = case op of
   "1" -> do
-    displayScreen "./src/data/info.json" ejecutarOp1 screen_option "+" "Potencia de matrices"
+    displayScreen "./src/data/info.json" ejecutarOp1 screen_option "-" "Potencia de matrices"
   "2" -> do
-    displayScreen "./src/data/info.json" ejecutarOp2 screen_option "+" "Matriz identidad"
+    displayScreen "./src/data/info.json" ejecutarOp2 screen_option "-" "Matriz identidad"
   "3" -> do
-    displayScreen "./src/data/info.json" ejecutarOp3 screen_option "+" "Multiplicación de matrices"
+    displayScreen "./src/data/info.json" ejecutarOp3 screen_option "-" "Multiplicación de matrices"
   "4" -> do
     clearScreen
     putStrLn "Saliendo..."
@@ -194,12 +195,12 @@ ejecutarOp1 op1 = case op1 of
   "1" -> do
     displayScreen "./src/data/info.json" ejecutarOp screen_1 "1" ""
   "2" -> do
-    displayScreen "./src/data/info.json" ejecutarOp screen_quiz1 "-" ""
+    displayScreen "./src/data/info.json" ejecutarOp screen_quiz1 "+" ""
   "3" -> do
     putStrLn ""
     putStrLn "-------CALCULADORA PARA POTENCIAS DE MATRICES-------"
     putStrLn ""
-    displayScreen "./src/data/info.json" ejecutarOp screen_1 "" ""
+    displayScreen "./src/data/info.json" ejecutarOp screen_1 "-" ""
   "4" -> do
     putStrLn "Regresando"
     threadDelay 2000000  -- Espera de 2 segundos
@@ -218,10 +219,7 @@ ejecutarOp2 op2 = case op2 of
   "2" -> do
     displayScreen "./src/data/info.json" ejecutarOp screen_quiz2 "" ""
   "3" -> do
-    putStrLn ""
-    putStrLn "-------CALCULADORA PARA MATRICES IDENTIDAD-------"
-    putStrLn ""
-    displayScreen "./src/data/info.json" ejecutarOp screen_2 "" ""
+    mainidentity
   "4" -> do
     putStrLn "Regrasando"
     threadDelay 2000000  -- Espera de 2 segundos
@@ -305,7 +303,8 @@ mainmulti = do
             let resultado = multiMatriz p q
             putStrLn "El resultado de la multiplicación es:"
             print resultado
-            displayScreen "./src/data/info.json" ejecutarOp3 screen_option "+" "Multiplicación de matrices"
+            op <- getLine
+            displayScreen "./src/data/info.json" ejecutarOp3 screen_option "" "Multiplicación de matrices"
 
 
 
@@ -324,7 +323,11 @@ mainidentity = do
   print matrizIA
 
 --Main para la calculadora de exponenciacion binaria.
+<<<<<<< HEAD
 mainexpo :: IO()
+=======
+mainexpo :: IO ()
+>>>>>>> 48a8859b2e2ac15904beca2a05cbccc4f41de506
 mainexpo = do
   -- Solicitar al usuario las dimensiones de la matriz
   putStrLn "Recuerde que la matriz debe ser cuadrada."
@@ -340,6 +343,6 @@ mainexpo = do
   putStrLn "Ingrese el exponente:"
   n <- readLn :: IO Int
 
-  let result = exponention p n
+  let result = exponentation p n
   putStrLn "El resultado de la exponenciacion es:"
   print result
