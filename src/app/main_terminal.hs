@@ -301,4 +301,23 @@ mainindetity = do
   putStrLn "La matriz identidad es:"
   print matrizIA
 
+--Main para la calculadora de exponenciacion binaria.
+mainexpo :: do()
+mainexpo = do
+  -- Solicitar al usuario las dimensiones de la matriz
+  putStrLn "Recuerde que la matriz debe ser cuadrada."
+  putStrLn "Ingrese las dimensiones de la primera matriz (filas columnas):"
+  x <- readLn :: IO Int
 
+  -- Solicitar los elementos de la matriz
+  putStrLn "Ingrese los elementos de la matriz (por filas) (Ingrese una fila ENTER ingrese la otra):"
+  elementosP <- replicateM x (fmap (map read . words) getLine :: IO [Int])
+  let p = array ((1, 1), (x, x)) [((i, j), elementosP !! (i - 1) !! (j - 1)) | i <- [1..x], j <- [1..x]]
+
+  -- Solicitar los elementos de la matriz
+  putStrLn "Ingrese el exponente:"
+  n <- readLn :: IO Int
+
+  let result = exponention p n
+  putStrLn "El resultado de la exponenciacion es:"
+            print resultado
