@@ -133,7 +133,8 @@ displayScreen filePath handleInput selectScreen control place_select = do
         putStrLn "Failed to parse Json\n press q to exit"
         op <- getLine
         exitSuccess
-        
+
+--- Ejecuta el menú de arranque 
 ejecutarOp_a :: String -> IO ()
 ejecutarOp_a op = case op of
   "1" -> do
@@ -262,6 +263,50 @@ main = do
   displayScreen "./src/data/info.json" ejecutarOp_a screen_select "" ""
 
 
+--Main de la calculadora de multiplicación de matrices
+mainmulti :: IO ()
+mainmulti = do
+    -- Solicitar al usuario las dimensiones de la primera matriz
+    putStrLn "Recuerde que para la multiplicación las matrices deben ser cuadradas."
+    putStrLn "Ingrese las dimensiones de la primera matriz (filas columnas):"
+    [m, n] <- fmap (map read . words) getLine :: IO [Int]
 
+    -- Solicitar los elementos de la primera matriz
+    putStrLn "Ingrese los elementos de la primera matriz (por filas) (Ingrese una fila ENTER ingrese la otra):"
+    elementosP <- replicateM m (fmap (map read . words) getLine :: IO [Int])
+    let p = array ((1, 1), (m, n)) [((i, j), elementosP !! (i - 1) !! (j - 1)) | i <- [1..m], j <- [1..n]]
+
+    -- Solicitar al usuario las dimensiones de la segunda matriz
+    putStrLn "Ingrese las dimensiones de la segunda matriz (filas columnas):"
+    [k, l] <- fmap (map read . words) getLine :: IO [Int]
+
+    -- Verificar si las matrices pueden ser multiplicadas
+    if n /= k
+        then putStrLn "Las matrices no se pueden multiplicar. El número de columnas de la primera debe ser igual al número de filas de la segunda."
+        else do
+            -- Solicitar los elementos de la segunda matriz
+            putStrLn "Ingrese los elementos de la segunda matriz (por filas):"
+            elementosQ <- replicateM k (fmap (map read . words) getLine :: IO [Int])
+            let q = array ((1, 1), (k, l)) [((i, j), elementosQ !! (i - 1) !! (j - 1)) | i <- [1..k], j <- [1..l]]
+
+            -- Multiplicar las matrices
+            let resultado = multiMatriz p q
+            putStrLn "El resultado de la multiplicación es:"
+            print resultado
+
+
+--Main para la calculadora de matriz identidad.
+mainidentity :: do ()
+mainindetity = do
+  putStrLn "Recuerde que las matrices identidad son cuadradas."
+  putStrLn "Ingrese el tamaño de su matriz identidad."
+  n <- readLn :: IO Int
+  --Generamos la matriz identidad al llamar la función.
+  let matrizI = identMatrix n
+  --Convertimos la lista en una listas a un array.
+  let matrizIA = listToArray matrizI
+  --Mandamos a pantalla el resultado.
+  putStrLn "La matriz identidad es:"
+  print matrizIA
 
 
