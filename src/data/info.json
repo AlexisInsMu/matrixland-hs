@@ -6,17 +6,17 @@
 
 
     "screen_1":{
-        "text":"-------INFORMACIÓN-------\n\n\t\tDividimos el trabajo usando la representación binaria del exponente.\n\n\t\tDado que el número tiene exactamente [log(n)+1] dígitos en base 2, \n\n\t\tsolo necesitamos realizar O(log n) multiplicaciones si conocemos las potencias.\n\n\t\t Afortunadamente, esto es muy fácil, ya que un elemento de la secuencia es \n\n\t\tsolo el cuadrado del elemento anterior.",
+        "text":"-------INFORMACIÓN-------\n\n\t\tDividimos el trabajo usando la representación binaria del exponente.\n\n\t\tDado que el número tiene exactamente [log(n)+1] dígitos en base 2, \n\n\t\tsolo necesitamos realizar O(log n) multiplicaciones si conocemos las potencias.\n\n\t\t Afortunadamente, esto es muy fácil, ya que un elemento de la secuencia es \n\n\t\tsolo el cuadrado del elemento anterior.\n\n\t\t Presione 4 para regresar.",
         "images": "../images/exponenciacion1.png"
     },
 
     "screen_2":{
-        "text":"-------INFORMACIÓN-------\n\n\t\t La matriz Identidad (o Unidad) es una matriz cuadrada llena de \n\n\t\t ceros (0) excepto en la diagonal principal, \n\n\t\tdonde todos los elementos son unos (1).",
+        "text":"-------INFORMACIÓN-------\n\n\t\t La matriz Identidad (o Unidad) es una matriz cuadrada llena de \n\n\t\t ceros (0) excepto en la diagonal principal, \n\n\t\tdonde todos los elementos son unos (1).\n\n\t\t Presione 4 para regresar.",
         "images": "../images/identidad1.png"  
     },
 
     "screen_3":{
-        "text": "-------INFORMACIÓN-------\n\n\t\t Dos matrices A y B son multiplicables si el número de columnas \n\n\t\t de A coincide con el número de filas de B. \n\n\t\t El elemento Cij de la matriz producto se obtiene \n\n\t\t multiplicando cada elemento de la fila i de la matriz A \n\n\t\t por cada elemento de la columna j de la matriz B y sumándolos.",
+        "text": "-------INFORMACIÓN-------\n\n\t\t Dos matrices A y B son multiplicables si el número de columnas \n\n\t\t de A coincide con el número de filas de B. \n\n\t\t El elemento Cij de la matriz producto se obtiene \n\n\t\t multiplicando cada elemento de la fila i de la matriz A \n\n\t\t por cada elemento de la columna j de la matriz B y sumándolos.\n\n\t\t Presione 4 para regresar.",
         "images": "../images/multiplicacion1.png"
     },
 
@@ -29,16 +29,34 @@
         "text": "-------QUIZ EXPONENCIACION BINARIA DE MATRICES-------\n\n\t\t1)Un elemento de la secuencia de potencias se puede obtener cuadrando el elemento anterior.\n\n\t\t2)El número de dígitos en base 2 de un número n es aproximadamente [log(n) + 1].",
         "images":"../images/exponenciacion1.png"
     },
+
     "screen_quiz2":{
         "text": "-------QUIZ MATRIZ IDENTIDAD-------\n\n\t\t1)La matriz identidad es una matriz cuadrada en la que todos los elementos fuera de la diagonal principal son ceros.\n\n\t\t 2)En la matriz identidad, los elementos de la diagonal principal son todos ceros.",
         "images":"../images/exponenciacion1.png"
     },
+
     "screen_quiz3":{
         "text": "-------QUIZ MULTIPLICACION DE MATRICES-------\n\n\t\t1)El elemento Cij de la matriz producto se obtiene sumando los elementos correspondientes de la fila i de A y la columna j de B, sin realizar multiplicaciones.\n\n\t\t2)Dos matrices A y B son multiplicables si el número de columnas de A es igual al número de filas de B.",
         "images":"../images/exponenciacion1.png"
     },
+
     "screen_option":{
         "text": "\n\n\t\t1) Aprender más\t\t\n\n2) Quiz\t\t\n\n3) Calculadora\t\t\n\n4) Regresar al menú principal\t\t\n\n¿Qué deseas aprender?\t\t\n\n",
+        "images":"../images/exponenciacion1.png"
+    },
+
+    "screen_ej1":{
+        "text": "\n\n\t\t",
+        "images":"../images/exponenciacion1.png"
+    },
+
+    "screen_ej2":{
+        "text": "\n\n\t\tPara obtener la matriz identidad, solo ingresa que tamaño para quieres.\n\n\t\t 3 ---> ENTER. \n\n\t\tResultado: [[1,0,0],[0,1,0],[0,0,1]]\n\n\t\t",
+        "images":"../images/exponenciacion1.png"
+    },
+
+    "screen_ej3":{
+        "text": "\n\n\t\t",
         "images":"../images/exponenciacion1.png"
     }
 }

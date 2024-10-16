@@ -6,12 +6,12 @@ module Operations.Operaciones_matrix
 
 import Data.Array
 
--- Definimos una función para obtener el producto escalar de los vectores.
-prodEscalar :: Num a => Array Int a -> Array Int a -> a
+-- Función para calcular el producto escalar de dos vectores
+prodEscalar :: Num a => Array Int a -> Array Int a -> a 
 prodEscalar x y =
     sum [i * j | (i, j) <- zip (elems x) (elems y)]
 
--- Multiplicación de matrices
+-- Función para multiplicar matrices
 multiMatriz :: Num a => Array (Int, Int) a -> Array (Int, Int) a -> Array (Int, Int) a
 multiMatriz p q =
     array ((1, 1), (m, n))
@@ -35,18 +35,22 @@ identMatriz :: Num a => Int -> [[a]]
 identMatriz n = map (\i -> map (\j -> if i == j then 1 else 0) [0..n-1]) [0..n-1]
 
 -- Funciones auxiliares para obtener filas y columnas
+-- Función para obtener una fila de la matriz
 fila :: Int -> Array (Int, Int) a -> Array Int a
 fila i p = ixmap (1, n) (\j -> (i, j)) p
     where (_, (m, n)) = bounds p
 
+-- Función para obtener una columna de la matriz
 columna :: Int -> Array (Int, Int) a -> Array Int a
 columna j q = ixmap (1, m) (\i -> (i, j)) q
     where (_, (m, n)) = bounds q
 
+-- Función para obtener el número de filas
 noFilas :: Array (Int, Int) a -> Int
 noFilas p = m
     where (_, (m, _)) = bounds p
 
+-- Función para obtener el número de columnas
 noColumnas :: Array (Int, Int) a -> Int
 noColumnas q = n
     where (_, (_, n)) = bounds q
@@ -62,6 +66,8 @@ listToArray xss = array ((0, 0), (rows - 1, cols - 1)) [((i, j), xss !! i !! j) 
   where
     rows = length xss
     cols = length (head xss)
+
+
 {-- Potenciación de matrices --}
 {--
 
