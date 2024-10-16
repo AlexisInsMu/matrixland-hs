@@ -38,6 +38,13 @@ data ScreenClass = ScreenClass
   }
   deriving (Show, Generic)
 
+
+data ScreenQuiz = ScreenQuiz  
+  {text:: String
+  , images :: String
+  }
+  deriving (Show, Generic)
+
 {--JSON data--}
 data Info = Info
   { screen_select :: ScreenClass
@@ -151,6 +158,7 @@ ejecutarOp_q op = do
   if ((dato1 == "Y" or dato1 == "y") and (dato2 == "Y" or dato2 == "y")) then 
     putStrLn "Lo hiciste bien !"
     threadDelay 3000000  -- Espera de 2 segundos
+
   else 
     
 
