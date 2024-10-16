@@ -2,7 +2,7 @@ module Operations.Operaciones_matrix
     ( prodEscalar
     , multiMatriz
     , identMatriz
-    , exponention
+    , exponentation
     , listToArray
     ) where
 
@@ -94,8 +94,8 @@ inverso p = array ((1, 1), (m, n)) [((i, j),- (p ! (i, j))) | i <- [1..m], j <- 
         m = noFilas p
         n = noColumnas p
 
-exponention :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
-exponention p n
+exponentation :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
+exponentation p n
     | n == 0 = listToArray (identMatriz (noFilas p))
     | n < 0 = fastExpo (inverso p) (-n)
     | otherwise = fastExpo p n
