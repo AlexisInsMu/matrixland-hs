@@ -197,10 +197,7 @@ ejecutarOp1 op1 = case op1 of
   "2" -> do
     displayScreen "./src/data/info.json" ejecutarOp screen_quiz1 "+" ""
   "3" -> do
-    putStrLn ""
-    putStrLn "-------CALCULADORA PARA POTENCIAS DE MATRICES-------"
-    putStrLn ""
-    displayScreen "./src/data/info.json" ejecutarOp screen_1 "-" ""
+    mainexpo
   "4" -> do
     putStrLn "Regresando"
     threadDelay 2000000  -- Espera de 2 segundos
