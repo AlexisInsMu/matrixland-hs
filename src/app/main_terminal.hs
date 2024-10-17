@@ -229,7 +229,7 @@ ejecutarOp2 op2 = case op2 of
     putStrLn "No válida. Intenta de nuevo."
     putStrLn ""
     threadDelay 2000000  -- Espera de 2 segundos
-    displayScreen "./src/data/info.json" ejecutarOp2 screen_option "+" "Matriz identidad"
+    displayScreen "./src/data/info.json" ejecutarOp2 screen_option "-" "Matriz identidad"
 
 ejecutarOp3 :: String -> IO ()
 ejecutarOp3 op3 = case op3 of
