@@ -1,20 +1,37 @@
 {--Importar librerias--}
+--Omite los aprentesis en funciones como lambdas o do.
 {-# LANGUAGE BlockArguments #-}
+-- Ayuda a ignorar las advertencias innecesarias.
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+--Ignora las recomendaciones con el camelCase (mayus en c/palabra de un identificador).
 {-# HLINT ignore "Use camelCase" #-}
 
+--Para terminar el programa.
 import System.Exit (exitSuccess)
+--Para vacias el buffer de salida, y para referirse a la salida estándar.
 import System.IO (hFlush, stdout)
+--replicateM: ejecuta una función unidad que mapea un valor de un 
+--tipo subyacente a un valor, repetidas veces, devolviendo una lista.
 import Control.Monad (replicateM)
+--Permite crear arreglos.
 import Data.Array (array)
+--Para limpiar la consola.
 import System.Console.ANSI ( clearScreen )
+--Facilita la ejecución de op. in/out dentro de un contexto monádico.
 import Control.Monad.IO.Class (liftIO)
+--Termina la ejecución por un número de microsegundos.
 import Control.Concurrent (threadDelay)
+--Importa las funciones del archivo Operaciones_matrix.hs
 import Operations.Operaciones_matrix (multiMatriz, identMatriz, listToArray, exponentation)
+--Ayuda a codificar y decodificar JSON.
 import Data.Aeson
+--Da soporte para la derivación de instancis de clases de tipo.
 import GHC.Generics
+--Ayuda a dar soporta para el manejo de cadanas de bytes grandes.
 import qualified Data.ByteString.Lazy as B
+--Sirve para divir una cadena en una lista de subcadenas utilizando un delimitador.
 import Data.List.Split (splitOn)
+
 --import System.Process (system)
 
 -- mainterminal :: IO ()
@@ -34,6 +51,7 @@ import Data.List.Split (splitOn)
 
 
 {-- Data class--}
+--Creamos un objeto tipo ScreenClass que va a contener dos campos.
 data ScreenClass = ScreenClass
   {text:: String
   , images :: String
@@ -49,6 +67,7 @@ data ScreenClass = ScreenClass
 --   deriving (Show, Generic)
 
 {--JSON data--}
+--Son todas los objetos que vamos a llamar del archivo JSON.
 data Info = Info
   { screen_select :: ScreenClass
   , screen_1 :: ScreenClass
@@ -61,6 +80,8 @@ data Info = Info
   , screen_option :: ScreenClass
   } deriving (Show, Generic)
 
+--Estas instancias va a permitir que Haskell pueda convertir los datos
+--del JSON en ScreenClass y Info para que podamos trabajarlos.
 instance FromJSON ScreenClass
 instance ToJSON ScreenClass
 
@@ -156,6 +177,7 @@ ejecutarOp_a op = case op of
     putStrLn "No válida. Intenta de nuevo."
     main
 
+--Ejecuta este manu para los quizes
 ejecutarOp_q :: String -> IO()
 ejecutarOp_q op = do
   let (dato1, dato2) = extractDatos op
@@ -172,7 +194,7 @@ ejecutarOp_q op = do
 
 
 
-
+--Ejecuta el menu principal/de bienvenida.
 ejecutarOp :: String -> IO ()
 ejecutarOp op = case op of
   "1" -> do
@@ -190,6 +212,7 @@ ejecutarOp op = case op of
     putStrLn "No válida. Intenta de nuevo."
     mainterminal
 
+--Ejecuta el submenu de la opción de Potencia de matrices
 ejecutarOp1 :: String -> IO ()
 ejecutarOp1 op1 = case op1 of
   "1" -> do
@@ -209,6 +232,7 @@ ejecutarOp1 op1 = case op1 of
     threadDelay 2000000  -- Espera de 2 segundos
     displayScreen "./src/data/info.json" ejecutarOp1 screen_option "+" "Potencia de matrices"
 
+--Ejecuta el submenu de la opción de Matriz identidad. 
 ejecutarOp2 :: String -> IO ()
 ejecutarOp2 op2 = case op2 of
   "1" -> do
@@ -228,6 +252,7 @@ ejecutarOp2 op2 = case op2 of
     threadDelay 2000000  -- Espera de 2 segundos
     displayScreen "./src/data/info.json" ejecutarOp2 screen_option "-" "Matriz identidad"
 
+--Ejecuta el submenu de la opción de Multiplicacion de matrices
 ejecutarOp3 :: String -> IO ()
 ejecutarOp3 op3 = case op3 of
   "1" -> do
@@ -269,11 +294,16 @@ mainmulti = do
     putStrLn "-------CALCULADORA PARA MULTIPLICACIÓN DE MATRICES-------"
     putStrLn ""
     -- Solicitar al usuario las dimensiones de la primera matriz
+    --words: ayuda para dividir en palabras, read: convierte los datos leidos en enteros
+    --Se guardan en la lista [m,n]
     putStrLn "Recuerde que para la multiplicación las matrices deben ser cuadradas."
     putStrLn "Ingrese las dimensiones de la primera matriz (filas columnas):"
     [m, n] <- fmap (map read . words) getLine :: IO [Int]
 
     -- Solicitar los elementos de la primera matriz
+    --Utilizamoas replicateM para pedir una lista de listas, c/fila es un lista de enteros.
+    --p va a guardad la matriz que se a ir armando con los elementosP de acurdo con los indices
+    --de i y j.
     putStrLn "Ingrese los elementos de la primera matriz (por filas) (Ingrese una fila ENTER ingrese la otra):"
     elementosP <- replicateM m (fmap (map read . words) getLine :: IO [Int])
     let p = array ((1, 1), (m, n)) [((i, j), elementosP !! (i - 1) !! (j - 1)) | i <- [1..m], j <- [1..n]]
@@ -283,6 +313,8 @@ mainmulti = do
     [k, l] <- fmap (map read . words) getLine :: IO [Int]
 
     -- Verificar si las matrices pueden ser multiplicadas
+    --Como deben ser matriz cuadradas sus dimensiones tienen que ser las mismas.
+    --Si son diferentes lanza un mensaje y vuelve a llamar al mainmulti para que se vuelva a intentar.
     if n /= k
         then  do
 
@@ -292,18 +324,19 @@ mainmulti = do
           mainmulti
         else do
             -- Solicitar los elementos de la segunda matriz
+            --Se aplica los mismo que en la primera matriz
             putStrLn "Ingrese los elementos de la segunda matriz (por filas):"
             elementosQ <- replicateM k (fmap (map read . words) getLine :: IO [Int])
             let q = array ((1, 1), (k, l)) [((i, j), elementosQ !! (i - 1) !! (j - 1)) | i <- [1..k], j <- [1..l]]
 
             -- Multiplicar las matrices
+            --En resultado vamos a guardar los que nos envie la función multiMatriz al haberle enviado las dos matrices
+            --como parametros. Se imprime el resultado. Se presiona 4 para regresar al submenu.
             let resultado = multiMatriz p q
             putStrLn "El resultado de la multiplicación es:"
             print resultado
             op <- getLine
             displayScreen "./src/data/info.json" ejecutarOp3 screen_option "" "Multiplicación de matrices"
-
-
 
 --Main para la calculadora de matriz identidad.
 mainidentity :: IO ()
@@ -332,10 +365,12 @@ mainexpo = do
   elementosP <- replicateM x (fmap (map read . words) getLine :: IO [Int])
   let p = array ((1, 1), (x, x)) [((i, j), elementosP !! (i - 1) !! (j - 1)) | i <- [1..x], j <- [1..x]]
 
-  -- Solicitar los elementos de la matriz
+  -- Solicitar el exponente.
   putStrLn "Ingrese el exponente:"
   n <- readLn :: IO Int
 
+  --En resultado vamos a guardar los que nos envie la función exponention al haberle enviado la matriz y
+  --el exponente como parametros. Se imprime el resultado. Se presiona 4 para regresar al submenu.
   let result = exponentation p n
   putStrLn "El resultado de la exponenciacion es:"
   print result
