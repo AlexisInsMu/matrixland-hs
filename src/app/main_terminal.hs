@@ -10,9 +10,9 @@ import Data.Array (array)
 import System.Console.ANSI ( clearScreen )
 import Control.Monad.IO.Class (liftIO)
 import Control.Concurrent (threadDelay)
-import Operations.Operaciones_matrix (multiMatriz, identMatriz, listToArray, exponentation)
-import Data.Aeson
-import GHC.Generics
+import Operations.Operaciones_matrix (multiMatriz, identMatriz, listToArray, exponentation, imprimir_bonito)
+import Data.Aeson ( decode, FromJSON, ToJSON )
+import GHC.Generics ( Generic )
 import qualified Data.ByteString.Lazy as B
 import Data.List.Split (splitOn)
 --import System.Process (system)
@@ -203,13 +203,13 @@ ejecutarOp1 op1 = case op1 of
     displayScreen "./src/data/info.json" ejecutarOp screen_1 "-" ""
   "4" -> do
     putStrLn "Regresando"
-    threadDelay 2000000  -- Espera de 2 segundos
+    threadDelay 3000000  -- Espera de 2 segundos
     mainterminal
   _ -> do
     putStrLn ""
     putStrLn "No válida. Intenta de nuevo."
     putStrLn ""
-    threadDelay 2000000  -- Espera de 2 segundos
+    threadDelay 3000000  -- Espera de 2 segundos
     displayScreen "./src/data/info.json" ejecutarOp1 screen_option "+" "Potencia de matrices"
 
 ejecutarOp2 :: String -> IO ()
@@ -288,23 +288,21 @@ mainmulti = do
     -- Verificar si las matrices pueden ser multiplicadas
     if n /= k
         then  do
-
           putStrLn "Las matrices no se pueden multiplicar. El número de columnas de la primera debe ser igual al número de filas de la segunda."
           threadDelay 3000000
           putStrLn "\n\n Reintentando"
           mainmulti
         else do
-            -- Solicitar los elementos de la segunda matriz
-            putStrLn "Ingrese los elementos de la segunda matriz (por filas):"
-            elementosQ <- replicateM k (fmap (map read . words) getLine :: IO [Int])
-            let q = array ((1, 1), (k, l)) [((i, j), elementosQ !! (i - 1) !! (j - 1)) | i <- [1..k], j <- [1..l]]
-
-            -- Multiplicar las matrices
-            let resultado = multiMatriz p q
-            putStrLn "El resultado de la multiplicación es:"
-            print resultado
-            op <- getLine
-            displayScreen "./src/data/info.json" ejecutarOp3 screen_option "" "Multiplicación de matrices"
+          -- Solicitar los elementos de la segunda matriz
+          putStrLn "Ingrese los elementos de la segunda matriz (por filas):"
+          elementosQ <- replicateM k (fmap (map read . words) getLine :: IO [Int])
+          let q = array ((1, 1), (k, l)) [((i, j), elementosQ !! (i - 1) !! (j - 1)) | i <- [1..k], j <- [1..l]]
+          -- Multiplicar las matrices
+          let resultado = multiMatriz p q
+          putStrLn "El resultado de la multiplicación es:"
+          print resultado
+          op <- getLine
+          displayScreen "./src/data/info.json" ejecutarOp3 screen_option "" "Multiplicación de matrices"
 
 
 
@@ -320,7 +318,7 @@ mainidentity = do
   let matrizIA = listToArray matrizI
   --Mandamos a pantalla el resultado.
   putStrLn "La matriz identidad es:"
-  print matrizIA
+  imprimir_bonito matrizIA
 
 --Main para la calculadora de exponenciacion binaria.
 mainexpo :: IO ()
@@ -341,4 +339,4 @@ mainexpo = do
 
   let result = exponentation p n
   putStrLn "El resultado de la exponenciacion es:"
-  print result
+  imprimir_bonito result

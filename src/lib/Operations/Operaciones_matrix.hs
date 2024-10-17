@@ -1,9 +1,12 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use camelCase" #-}
 module Operations.Operaciones_matrix
     ( prodEscalar
     , multiMatriz
     , identMatriz
     , exponentation
     , listToArray
+    , imprimir_bonito
     ) where
 
 import Data.Array
@@ -82,8 +85,6 @@ fastExpo p n
     | even n = fastExpo (multiMatriz p p) (n `div` 2)
     | otherwise = multiMatriz p (fastExpo p (n - 1))
 
-exponention :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
-exponention p n
 exponentation :: Num a => Array (Int, Int) a -> Int -> Array (Int, Int) a
 exponentation p n
     | n == 0 = listToArray (identMatriz (noFilas p))
@@ -103,3 +104,13 @@ arrayToList arr = [[arr ! (i, j) | j <- [0..n-1]] | i <- [0..m-1]]
   where
     m = noFilas arr
     n = noColumnas arr
+
+
+-- Function to print the array nicely
+imprimir_bonito :: Show a => Array (Int, Int) a -> IO ()
+imprimir_bonito p = do
+    let (_, (m, n)) = bounds p
+    mapM_ (\i -> do
+        mapM_ (\j -> do
+            putStr $ show (p ! (i, j)) ++ " ") [1..n]
+        putStrLn "") [1..m]
