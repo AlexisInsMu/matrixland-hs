@@ -1,6 +1,6 @@
 {
     "screen_select":{
-        "text":"-------Arranque-------\n\n\t\t¿Qué versión desea iniciar?\n\n\t\t1) Versión de consola\n\n\t\t2) Versión gráfica\n\n\t\t3) Salir\n\n\t\t\n\n\t\t",
+        "text":"\t\t-------Arranque-------\n\n\t\t¿Qué versión desea iniciar?\n\n\t\t1) Versión de consola\n\n\t\t2) Versión gráfica\n\n\t\t3) Salir\n\n\t\t\n\n\t\t",
         "images":"../images/exponenciacion1.png"
     },
 

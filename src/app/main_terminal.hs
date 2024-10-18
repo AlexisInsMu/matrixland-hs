@@ -29,8 +29,14 @@ import Data.Aeson ( decode, FromJSON, ToJSON )
 import GHC.Generics ( Generic )
 --Ayuda a dar soporta para el manejo de cadanas de bytes grandes.
 import qualified Data.ByteString.Lazy as B
---Sirve para divir una cadena en una lista de subcadenas utilizando un delimitador.
+--Sirve para dividir una cadena en una lista de subcadenas utilizando un delimitador.
 import Data.List.Split (splitOn)
+-- Data.List: contiene funciones para trabajar con listas.
+import Data.List (elemIndex)
+-- Data.Maybe: contiene funciones para trabajar con valores que pueden ser nulos.
+import Data.Maybe (fromMaybe)
+-- Data.Char: contiene funciones para manipular caracteres.
+import Data.Char (toLower)
 
 --import System.Process (system)
 
@@ -89,8 +95,8 @@ instance FromJSON Info
 instance ToJSON Info
 
 -- Lambda function to extract dato1 and dato2 from a
-extractDatos :: String -> (String, String)
-extractDatos = (\a -> let [dato1, dato2] = splitOn "/" a in (dato1, dato2))
+--extractDatos :: String -> (String, String, String)
+--extractDatos = \a -> let [where_select ,dato1, dato2] = splitOn "/" a in (where_select,dato1, dato2)
 
 {-- DisplayScreen, imprime el contenido de un json interactuable con numeros--}
 displayScreen :: FilePath -> (String  -> IO())  -> (Info -> ScreenClass) -> String -> String -> IO  ()
@@ -114,6 +120,7 @@ displayScreen filePath handleInput selectScreen control place_select = do
     case _Data of
       Just info -> do
         let screen = selectScreen info
+        putStr "\t"
         putStrLn $ place_select
         putStrLn $ text screen
         putStrLn "\nPoner primera opcion: (Y/y)Yes , (N/n)No"
@@ -122,10 +129,9 @@ displayScreen filePath handleInput selectScreen control place_select = do
         putStrLn "\nPoner segunda opcion: "
         hFlush stdout
         input0 <- getLine
-        let dato1 = read input1:: String
-        let dato2 = read input0:: String
-        handleInput (dato1 ++ "/" ++ dato2)
-        return ()
+        let dato1 = input1
+        let dato2 = input0
+        handleInput (place_select ++ "/"++ dato1 ++ "/" ++ dato2)
 
       Nothing -> do
         putStrLn "Failed to parse Json\n press q to exit"
@@ -177,20 +183,76 @@ ejecutarOp_a op = case op of
     putStrLn "No válida. Intenta de nuevo."
     main
 
+
+-- Función para buscar una cadena en una lista y retornar el índice
+buscarIndice :: String -> [String] -> Int
+buscarIndice str lista = fromMaybe (-1) (elemIndex str lista)
+
+toLowerString :: String -> String
+toLowerString  = map toLower 
+
 --Ejecuta este manu para los quizes
 ejecutarOp_q :: String -> IO()
 ejecutarOp_q op = do
-  let (dato1, dato2) = extractDatos op
-  if (dato1 == "Y" || dato1 == "y") && (dato2 == "Y" || dato2 == "y") 
+  let (where_select,dato1, dato2) = (\a -> let [where_select ,dato1, dato2] = splitOn "/" a in (where_select,dato1, dato2)) op
+  let dato1_lower = toLowerString dato1
+  let dato2_lower = toLowerString dato2
+  let lista = ["Potencia de matrices", "Matriz identidad","Multiplicacion de matrices"]
+  let lista_screen = [["Y", "N"], ["N", "Y"], ["Y", "N"]]
+  let index = buscarIndice where_select lista
+
+  putStrLn "Respuestas correctas:"
+  putStrLn $ "1. " ++ dato1
+  putStrLn $ "2. " ++ dato2
+  putStrLn $ "Respuestas correctas:"
+  putStrLn $ "1. " ++ lista_screen !! index !! 0
+  putStrLn $ "2. " ++ lista_screen !! index !! 1
+  hFlush stdout
+  if (dato1_lower == lista_screen !! index !! 0) && (dato2_lower == lista_screen !! index !! 1)
     then do
       putStrLn "Lo hiciste bien !"
       threadDelay 3000000  -- Espera de 2 segundos
-      op <- getLine
-      return ()
-    else do
-      putStrLn "aqui"
-      op <- getLine
-      return ()
+      putStrLn "\n\n presiona algo para regresar"
+      hFlush stdout
+      if where_select == "Potencia de matrices"
+        then do
+          op <- getLine
+          displayScreen "./src/data/info.json" ejecutarOp1 screen_option "-" "Potencia de matrices"
+      else if where_select == "Matriz identidad"
+        then do
+          op <- getLine
+          displayScreen "./src/data/info.json" ejecutarOp2 screen_option "-" "Matriz identidad"
+      else if where_select == "Multiplicacion de matrices"
+        then do
+          op <- getLine
+          displayScreen "./src/data/info.json" ejecutarOp1 screen_option "-" "Multiplicacion de matrices"
+      else 
+        do 
+        putStrLn "Regresando"
+        hFlush stdout
+        op <- getLine
+        threadDelay 3000000  -- Espera de 2 segundos
+        mainterminal
+  else do
+      putStrLn "Lo hiciste mal !"
+      putStrLn "Vuelvelo a intentar"
+      threadDelay 3000000  -- Espera de 2 segundos
+      if where_select == "Potencia de matrices"
+        then do
+          displayScreen "./src/data/info.json" ejecutarOp_q screen_quiz1 "+" "Potencia de matrices"
+      else if where_select == "Matriz identidad"
+        then do
+          displayScreen "./src/data/info.json" ejecutarOp_q screen_quiz2 "+" "Matriz identidad"
+      else if where_select == "Multiplicacion de matrices"
+        then do
+          displayScreen "./src/data/info.json" ejecutarOp_q screen_quiz3 "+" "Multiplicacion de matrices"
+      else 
+        do 
+        putStrLn "Regresando"
+        hFlush stdout
+        op <- getLine
+        threadDelay 3000000  -- Espera de 2 segundos
+        mainterminal
 
 
 
@@ -202,7 +264,7 @@ ejecutarOp op = case op of
   "2" -> do
     displayScreen "./src/data/info.json" ejecutarOp2 screen_option "-" "Matriz identidad"
   "3" -> do
-    displayScreen "./src/data/info.json" ejecutarOp3 screen_option "-" "Multiplicación de matrices"
+    displayScreen "./src/data/info.json" ejecutarOp3 screen_option "-" "Multiplicacion de matrices"
   "4" -> do
     clearScreen
     putStrLn "Saliendo..."
@@ -218,7 +280,7 @@ ejecutarOp1 op1 = case op1 of
   "1" -> do
     displayScreen "./src/data/info.json" ejecutarOp screen_1 "1" ""
   "2" -> do
-    displayScreen "./src/data/info.json" ejecutarOp screen_quiz1 "+" ""
+    displayScreen "./src/data/info.json" ejecutarOp_q screen_quiz1 "+" "Potencia de matrices"
   "3" -> do
     mainexpo
   "4" -> do
@@ -230,7 +292,7 @@ ejecutarOp1 op1 = case op1 of
     putStrLn "No válida. Intenta de nuevo."
     putStrLn ""
     threadDelay 3000000  -- Espera de 2 segundos
-    displayScreen "./src/data/info.json" ejecutarOp1 screen_option "+" "Potencia de matrices"
+    displayScreen "./src/data/info.json" ejecutarOp1 screen_option "-" "Potencia de matrices"
 
 --Ejecuta el submenu de la opción de Matriz identidad. 
 ejecutarOp2 :: String -> IO ()
@@ -238,7 +300,7 @@ ejecutarOp2 op2 = case op2 of
   "1" -> do
     displayScreen "./src/data/info.json" ejecutarOp screen_2 "2" ""
   "2" -> do
-    displayScreen "./src/data/info.json" ejecutarOp screen_quiz2 "" ""
+    displayScreen "./src/data/info.json" ejecutarOp screen_quiz2 "+" "Matriz identidad"
   "3" -> do
     mainidentity
   "4" -> do
@@ -258,10 +320,7 @@ ejecutarOp3 op3 = case op3 of
   "1" -> do
     displayScreen "./src/data/info.json" ejecutarOp screen_3 "3" ""
   "2" -> do
-    putStrLn ""
-    putStrLn "-------QUIZ MULTIPLICACIÓN DE MATRICES-------"
-    putStrLn ""
-    displayScreen "./src/data/info.json" ejecutarOp screen_quiz3 "" ""
+    displayScreen "./src/data/info.json" ejecutarOp_q screen_quiz3 "+" "Multiplicacion de matrices"
   "3" -> do
     mainmulti
   "4" -> do
@@ -273,7 +332,7 @@ ejecutarOp3 op3 = case op3 of
     putStrLn "No válida. Intenta de nuevo."
     putStrLn ""
     threadDelay 2000000  -- Espera de 2 segundos
-    displayScreen "./src/data/info.json" ejecutarOp3 screen_option "+" "Multiplicación de matrices"
+    displayScreen "./src/data/info.json" ejecutarOp3 screen_option "-" "Multiplicacion de matrices"
 
 --main terminal version
 mainterminal :: IO ()
@@ -332,16 +391,19 @@ mainmulti = do
             --como parametros. Se imprime el resultado. Se presiona 4 para regresar al submenu.
           let resultado = multiMatriz p q
           putStrLn "El resultado de la multiplicación es:"
-          print resultado
+          imprimir_bonito resultado
+          putStrLn ""
+          putStrLn "Presiona algo para regresar al menú."
           op <- getLine
-          displayScreen "./src/data/info.json" ejecutarOp3 screen_option "" "Multiplicación de matrices"
+          displayScreen "./src/data/info.json" ejecutarOp3 screen_option "-" "Multiplicacion de matrices"
 
 --Main para la calculadora de matriz identidad.
 mainidentity :: IO ()
 mainidentity = do
   putStrLn "Recuerde que las matrices identidad son cuadradas."
-  n <- readLn :: IO Int
   putStrLn "Ingrese el tamaño de su matriz identidad."
+  hFlush stdout
+  n <- readLn :: IO Int
   --Generamos la matriz identidad al llamar la función.
   let matrizI = identMatriz n
   --Convertimos la lista en una listas a un array.
@@ -349,6 +411,11 @@ mainidentity = do
   --Mandamos a pantalla el resultado.
   putStrLn "La matriz identidad es:"
   imprimir_bonito matrizIA
+  putStrLn ""
+  putStrLn "Presiona algo para regresar al menú."
+  hFlush stdout
+  op <- getLine
+  displayScreen "./src/data/info.json" ejecutarOp2 screen_option "-" "Matriz identidad"
 
 --Main para la calculadora de exponenciacion binaria.
 mainexpo :: IO ()
@@ -372,3 +439,7 @@ mainexpo = do
   let result = exponentation p n
   putStrLn "El resultado de la exponenciacion es:"
   imprimir_bonito result
+  putStrLn ""
+  putStrLn "Presiona algo para regresar al menú."
+  op <- getLine
+  displayScreen "./src/data/info.json" ejecutarOp1 screen_option "-" "Potencia de matrices"
