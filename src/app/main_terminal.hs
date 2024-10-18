@@ -140,6 +140,7 @@ displayScreen filePath handleInput selectScreen control place_select = do
   else if control == "-" then
     case _Data of
       Just info -> do
+        putStr "\t\t"
         putStrLn $ place_select
         let screen = selectScreen info
         putStrLn $ text screen
@@ -198,16 +199,8 @@ ejecutarOp_q op = do
   let dato1_lower = toLowerString dato1
   let dato2_lower = toLowerString dato2
   let lista = ["Potencia de matrices", "Matriz identidad","Multiplicacion de matrices"]
-  let lista_screen = [["Y", "N"], ["N", "Y"], ["Y", "N"]]
+  let lista_screen = [["y", "n"], ["n", "y"], ["y", "n"]]
   let index = buscarIndice where_select lista
-
-  putStrLn "Respuestas correctas:"
-  putStrLn $ "1. " ++ dato1
-  putStrLn $ "2. " ++ dato2
-  putStrLn $ "Respuestas correctas:"
-  putStrLn $ "1. " ++ lista_screen !! index !! 0
-  putStrLn $ "2. " ++ lista_screen !! index !! 1
-  hFlush stdout
   if (dato1_lower == lista_screen !! index !! 0) && (dato2_lower == lista_screen !! index !! 1)
     then do
       putStrLn "Lo hiciste bien !"
