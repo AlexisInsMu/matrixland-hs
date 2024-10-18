@@ -174,6 +174,7 @@ ejecutarOp_a op = case op of
   "2" -> do
     --- aqui va main terminal
     putStrLn "Aqui va algo"
+    hFlush stdout
     liftIO exitSuccess
   "3" -> do
     clearScreen
